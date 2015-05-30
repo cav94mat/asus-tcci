@@ -12,7 +12,7 @@ device (like the *Asus DSL-N55U*). By sending commands to it, you can access a g
 low-level options and information related to the chipset itself (and the xDSL modem component in
 particular).
 
-You can find exhaustive lists of commands online ([for instance here](http://www.scribd.com/doc/219586128/TrendChip-CI-Command-Reference-Manual-v1-4-pdf#)).
+You can find exhaustive lists of commands online (just google something like "TrendChip CI Command Reference").
 
 Possibly, this tool can be used also with other chipsets and/or device brands,
 since all what it does is establishing a simple communication over (special)
