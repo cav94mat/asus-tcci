@@ -8,7 +8,7 @@ TrendChip Command Interpreter for ASUS xDSL modem/routers.
 **Updates**: [on GitHub](https://github.com/cav94mat/asus-tcci)
 
 This tool lets you interact with the command interpreter (CI) of your TrendChip-based
-device (like the *Asus DSL-N55U*). By sending it commands, you can access a great number of
+device (like the *Asus DSL-N55U*). By sending commands to it, you can access a great number of
 low-level options and information related to the chipset itself (and the xDSL modem component in
 particular).
 
@@ -20,15 +20,15 @@ Ethernet frames.
 
 Installation
 ---
-Provided you have telnet enabled (you find the related option under _Administration_,
+Assuming you already have enabled telnet (you find the related option under _Administration_,
 in the router settings web-interface), you can easily get the binary by issuing these
 commands:
 
 1. `cd /tmp` (if you have a USB drive attached and an existing Optware/Entware setup there, you'd better use `cd /opt/sbin` instead).
-2. `wget -o asus-tcci https://github.com/cav94mat/asus-tcci/releases/download/latest/asus-tcci`
+2. `wget --no-check-certificate -O asus-tcci "https://github.com/cav94mat/asus-tcci/releases/download/0.1-150530A/asus-tcci"` (we use **--no-check-certificate** just because our router doesn't have an up-to-date list of CAs, so it will *always* fail if it's supposed to validate HTTPS certificates; however, if you solved this issue on your own device, of course you can omit this flag).
 3. `chmod +x ./asus-tcci`
 
-And finally, `./asus-tcci` to launch it.
+And, finally, `./asus-tcci` to launch it.
 
 Usage
 ---
@@ -54,17 +54,10 @@ Alternatives:
 
 Bugs and issues
 ---
+Check the [Issues section](https://github.com/cav94mat/asus-tcci/issues/) for a list of the known (un)solved bugs.
 
-Sometimes, you might get messed-up or incomplete responses. This probably happens
-because other programs are using the CI interface, so you get the responses addressed
-to them, or the response you're awaiting for is fetched by the other program.
-To prevent this, you may try to suspend offending processes issuing `killall -SIGSTOP <processName>`
-via telnet or SSH.
-
-If you're a developer and you found a way to isolate the asus-tcci comm. channel, or
-you managed to fix another bug, feel free to pm me or send a pull-request.
-
-If you found a ***new*** bug, instead, please report it into the issues section.
+If you managed to correct one, feel free to pm me and/or send a pull-request.
+Instead, if you found a new **unreported** bug, please add it.
 
 Building
 ---
