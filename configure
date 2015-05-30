@@ -1,0 +1,86 @@
+#!/bin/bash
+usage(){
+    echo "$0 [<asuswrt-source>] [<options>]"
+    echo ""
+    echo "PARAMS:"
+    echo ""
+    echo "  <asuswrt-src>    Path to the 'asuswrt/release/src-xx' folder that matches"
+    echo "                    your device model (e.g. 'src-ra' for the DSL-N55U)."
+    echo ""
+    echo "OPTIONS:"
+    echo ""
+    echo "  -r          \"Release\" profile (optimized binary)"
+    echo "  -k <ver>     Kernel-sources version (in the AsusWRT source-code package)."
+    echo "  -v <variant> Build variant (usually the letter 'A'), useful to distinguish"
+    echo "                several build performed on the same day."
+    echo ""
+    echo ""
+    echo "Read the README file carefully before proceeding!"
+}
+echo "$0"
+ASUSWRT="`dirname "$PWD"`"
+ASUSWRT="`dirname "$ASUSWRT"`"
+RELEASE=
+KERNEL=2.6.21.x
+VARIANT=A
+OUT="`dirname $0`/config.mk"
+while getopts "hk:rv:" opt; do
+    case $opt in
+    k)
+        KERNEL=$OPTARG
+        ;;
+    r)
+        RELEASE=1
+        ;;     
+    v)
+        VARIANT=$OPTARG
+        ;; 
+    h|\?)
+        usage
+        exit 0
+        ;;
+    :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
+  esac
+done
+shift $(( OPTIND - 1 ))
+# Get asuswrt source path from command-line, if supplied.
+[ -n "$1" ] && \
+    ASUSWRT="$1"
+( [ ! -d "$ASUSWRT/router" ] || [ ! -d "$ASUSWRT/linux" ] ) && \
+    {
+        echo "Invalid source path!"
+        echo ""
+        ([ -z "$1" -o -d "$ASUSWRT/router" ])&& \
+            {
+                echo "Either put this folder in the proper AsusWRT 'src-xx' directory,"
+                echo " or specify its absolute path through operands."
+                echo "";
+            }
+        echo "Check '$0 -?' for more information."
+        exit 1;
+    }
+# Check linux version
+[ ! -d "$ASUSWRT/linux/linux-$KERNEL" ] && \
+    {
+        echo "Kernel sources not available for linux-$KERNEL!"
+        echo "Try using the -k option to specify one of these (omit the 'linux-' prefix):"
+        echo ""
+        ls -f1 "$ASUSWRT/linux/"|grep ^linux-|cat
+        echo ""
+        echo "Check '$0 -?' for more information."
+        exit 1;
+    }
+    
+# Create asus_tcci.mk
+echo "include $ASUSWRT/router/common.mak" >"$OUT"
+[ -n "$RELEASE" ] && \
+    echo "CFLAGS = -Wall -O3" >>"$OUT" \
+|| \
+    echo "CFLAGS = -O0 -g" >>"$OUT"
+echo "CFLAGS += -DVERSION_BUILD=\\\"\$(shell date +\"%y%m%d\")$VARIANT\\\"" >>"$OUT"
+echo "CFLAGS += -I\$(SRCBASE)/linux/linux-2.6.21.x/drivers/net/raeth.dsl" >>"$OUT"
+echo "CFLAGS += -I\$(SRCBASE)/linux/linux-2.6.21.x/include" >>"$OUT"
+exit 0

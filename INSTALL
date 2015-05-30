@@ -1,0 +1,23 @@
+This will explain how to build asus-tcci on your own and/or integrate it into your
+custom AsusWRT firmware(s). If you aren't a developer or want to use a pre-compiled
+binary, check the README.md file instead.
+
+Building
+---
+
+1. Get the source-code of your device firmware (AsusWRT) from the official support page.
+2. Extract it somewhere. $HOME/Desktop is fine. ;)
+3. Check the provided instructions (the first README you find).
+    In particular, check if you should build from src-ra, src-rt, or something else.
+    For reference, we'll refer to this (sub)folder as <ASUSWRT-SRC> from now on.
+4. Copy the 'asus-tcci' directory (the one that holds this readme) into the
+   <ASUSWRT-SRC>/router/ sub-directory.
+5. According to the instructions mentioned in point 3, open a terminal and setup your
+   PATH, so that you can access the toolchain from the command-line.
+6. cd to <ASUSWRT-SRC>/router/asus-tcci and run `./configure`.
+7. If it complains about the kernel version, launch `./configure -k <VER>`, replacing
+   <VER> with one of the versions displayed on screen (do NOT include the "linux-"
+   prefix, just the version number).
+8. Once it's configured (no messages on the console), simply launch `make`.
+
+When you build your firmware from these sources, asus-tcci should be integrated as well.
