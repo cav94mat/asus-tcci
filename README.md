@@ -38,7 +38,7 @@ The **asus-tcci** binary support some parameters and operands. It should work ju
 fine without specifying any of them, however you may still want to alter its
 behaviour or make it run on different hardware. The syntax is:
 
-`./asus-tcci [-a|--adapter="<adapter1>"] [-b|--remote-adapter="<adapter2>"] [-c|--close] [-p|--log-packets] [-v|--verbose] [-k|--blink-on-receive] [<command>]`
+`asus-tcci [-a|--adapter="<adapter1>"] [-b|--remote-adapter="<adapter2>"] [-c|--close] [-p|--log-packets] [-v|--verbose] [-k|--blink-on-receive] [<command>]`
 
 Where **&lt;command&gt;** is the initial command (`sys ver` if none is specified).
 
