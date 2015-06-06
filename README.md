@@ -21,22 +21,24 @@ Ethernet frames.
 Installation
 ---
 Assuming you already have enabled telnet (you find the related option under _Administration_,
-in the router settings web-interface), you can easily get the binary by issuing these
+in the router settings web-interface), or even better SSH, you can easily get the binary by issuing these
 commands:
 
-1. `cd /tmp` (if you have a USB drive attached and an existing Optware/Entware setup there, you'd better use `cd /opt/sbin` instead).
-2. `wget --no-check-certificate -O asus-tcci "https://github.com/cav94mat/asus-tcci/releases/download/0.1-150530A/asus-tcci"` (we use **--no-check-certificate** just because our router doesn't have an up-to-date list of CAs, so it will *always* fail if it's supposed to validate HTTPS certificates; however, if you solved this issue on your own device, of course you can omit this flag).
+1. `[ -d "/opt/sbin" ] && cd /opt/sbin || cd /tmp`
+2. `wget --no-check-certificate -O asus-tcci "https://github.com/cav94mat/asus-tcci/releases/download/0.1-150530A/asus-tcci"` (we use **--no-check-certificate** just because our router doesn't come with an up-to-date list of CAs, so it will *always* fail when it's asked to validate HTTPS certificates; however, if you solved this issue on your own device, of course you can omit this flag).
 3. `chmod +x ./asus-tcci`
 
 And, finally, `./asus-tcci` to launch it.
 
+Keep in mind, if you don't have OptWare/EntWare (or at least one USB application) installed, you may have to repeat the above steps after each (re)boot, in order to use this utility again. Otherwise, the next time you login via telnet/SSH, just issue `asus-tcci` (you don't need to _cd_ again).
+
 Usage
 ---
 The **asus-tcci** binary support some parameters and operands. It should work just
-fine without specifying any option, however you may still want to alter its
+fine without specifying any of them, however you may still want to alter its
 behaviour or make it run on different hardware. The syntax is:
 
-`./prova [-a|--adapter="<adapter1>"] [-b|--remote-adapter="<adapter2>"] [-c|--close] [-p|--log-packets] [-v|--verbose] [-k|--blink-on-receive] [<command>]`
+`./asus-tcci [-a|--adapter="<adapter1>"] [-b|--remote-adapter="<adapter2>"] [-c|--close] [-p|--log-packets] [-v|--verbose] [-k|--blink-on-receive] [<command>]`
 
 Where **&lt;command&gt;** is the initial command (`sys ver` if none is specified).
 
